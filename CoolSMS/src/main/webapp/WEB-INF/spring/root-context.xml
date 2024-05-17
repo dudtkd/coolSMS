@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	 <bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close">
+	 	<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
+	 	<property name="url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
+	 	<property name="username" value="practice"/>
+	 	<property name="password" value="java"/>
+	 </bean>	
+	 <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+	 	<property name="dataSource" ref="dataSource"/>
+	 	<property name="mapperLocations" value="classpath:/sqlmap/**/*_SQL.xml"/>
+	 	<property name="configLocation" value="/WEB-INF/mybatisAlias/mybatisAlias.xml"/>
+	 </bean>
+	 <bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+	 	<constructor-arg name="sqlSessionFactory" index="0" ref="sqlSessionFactory"/>
+	 </bean>
+	 <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+	 	<property name="basePackage" value="kr.or.ddit.mapper"/> 
+	 </bean>
+	 <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	 	<property name="maxUploadSize" value="3145728"/>
+	 	<property name="maxInMemorySize" value="3145728"/>
+	 	<property name="defaultEncoding" value="UTF-8"/>
+	 </bean>
+	 <bean id="uploadPath" class="java.lang.String">
+	 	<constructor-arg value="D:\99.JSP_SPRING\02.SPRING2\workspace_spring2\.metadata\.plugins\org.eclipse.wst.server.core\tmp0\wtpwebapps\TestProject\resources\board"/>
+	 </bean>
+</beans>
